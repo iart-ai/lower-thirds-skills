@@ -1,0 +1,14 @@
+{
+  "name": "lower-thirds-skills",
+  "owner": {
+    "name": "iart.ai",
+    "url": "https://iart.ai"
+  },
+  "plugins": [
+    {
+      "name": "lower-thirds-skills",
+      "source": "./",
+      "description": "Animated lower thirds and stream overlays with a transparent background, drawn in JavaScript and rendered to WebM with alpha (OBS) or ProRes 4444 (Premiere, Resolve, Final Cut)."
+    }
+  ]
+}

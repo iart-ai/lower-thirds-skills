@@ -1,0 +1,23 @@
+{
+  "name": "lower-thirds-skills",
+  "version": "0.1.0",
+  "description": "Animated lower thirds and stream overlays with a transparent background, drawn in JavaScript and rendered to WebM with alpha (OBS) or ProRes 4444 (Premiere, Resolve, Final Cut).",
+  "author": {
+    "name": "iart.ai",
+    "url": "https://iart.ai"
+  },
+  "homepage": "https://iart.ai/lower-thirds",
+  "repository": "https://github.com/iart-ai/lower-thirds-skills",
+  "license": "MIT",
+  "keywords": [
+    "lower-thirds",
+    "transparent-video",
+    "alpha-channel",
+    "obs",
+    "overlay",
+    "webm",
+    "prores-4444",
+    "motion-graphics",
+    "claude-skill"
+  ]
+}
