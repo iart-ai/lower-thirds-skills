@@ -13,7 +13,7 @@ You copy `templates/lower-third.html` into the working folder, write the design 
 
 - **The words, exactly as they should read**: names, roles, show name, handle, scripture reference, song title. Keep the user's spelling and punctuation (setting a line in capitals is styling; the words stay theirs); never invent a title or a surname. If they give no second line, use their own words for one (what the stream is about) or leave it out.
 - **How many cards**: each person or item is one entry in `CARDS`, rendered to its own file with the same design. Add fields when a card needs more than `title` and `sub`.
-- **Where it goes**: OBS or a stream → WebM only; Premiere Pro, DaVinci Resolve, Final Cut → ProRes 4444 `.mov`; both named → both; a phone editor or tool without alpha → an MP4 on a green ground for chroma key. Not said: WebM and `.mov`.
+- **Where it goes**: OBS or a stream → WebM only; a web page → WebM plus the Safari HEVC copy (`references/delivery.md`); Premiere Pro, DaVinci Resolve, Final Cut → ProRes 4444 `.mov`; both named → both; a phone editor or tool without alpha → an MP4 on a green ground for chroma key. Not said: WebM and `.mov`.
 - **The look**: the show, the brand colours, the mood (news, podcast, gaming, documentary, church, corporate). The design comes from this, not from the template.
 - **Defaults when not given**: 1920×1080 at 30 fps; about 8 seconds (under a second in, a still hold of 5–6 seconds, half a second out); lower left; silent.
 
@@ -40,7 +40,7 @@ node render.mjs page.html in.jpg --sheet 0.1 --in                    # the build
 node render.mjs page.html out.jpg --sheet 0.1 --out                  # the build-out (both read window.PHASES)
 ```
 
-`--check` must pass, but it can't see text cut off by a wipe or text that's hard to read: your eyes do that. In the stills, every word reads over both the dark and the light ground and the spacing is even. In the sheets, nothing jumps, no text shows before or outside the part of its panel that is revealed, none gets cut mid-hold, and the build-out is as clean as the build-in. Check every entry in `CARDS` (`--card 1`, `--card 2` …). Fix and look again until it holds up.
+`--check` must pass, but it can't see text cut off by a wipe or text that's hard to read: your eyes do that. In the stills, every word reads over both the dark and the light ground and the spacing is even. In the sheets, nothing jumps, no text shows before or outside the part of its panel that is revealed, none gets cut mid-hold, and the build-out is as clean as the build-in. Check every entry in `CARDS` (`--card N` counts from 0: `--card 1` is the second). Fix and look again until it holds up.
 
 ## 4. Render and deliver
 
@@ -52,6 +52,6 @@ node render.mjs page.html maya-chen-4k.webm --scale 2       # 3840x2160
 node render.mjs page.html maya-chen-green.mp4 --ground '#00ff00'
 ```
 
-The script refuses an MP4 without `--ground` (H.264 has no alpha) and confirms that WebM and `.mov` files really carry an alpha channel. Hand over the files, the page (they can change a name and re-render), and how to use them in their tool from `references/delivery.md`, in two or three lines. Say what you chose that they didn't ask for.
+The script refuses an MP4 without `--ground` (H.264 has no alpha) and confirms that WebM and `.mov` files really carry an alpha channel, by decoding a frame from the hold. Hand over the files, the page (they can change a name and re-render), and how to use them in their tool from `references/delivery.md`, in two or three lines (a web page also needs the Safari file described there). Say what you chose that they didn't ask for.
 
-Needs: Node 18+, `npm i playwright-core` in the working folder, ffmpeg, and Chrome (or `npx playwright install chromium`).
+Needs: Node 18+, `npm i playwright-core` in the working folder or any folder above it, ffmpeg, and Chrome (or `npx playwright install chromium`).

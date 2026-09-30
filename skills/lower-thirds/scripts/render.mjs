@@ -200,7 +200,13 @@ if (mode === 'stills') {
     const probe = execFileSync('ffprobe', ['-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=pix_fmt:stream_tags=alpha_mode', '-of', 'default=nw=1', outArg]).toString();
     const ok = ext === '.webm' ? /alpha_mode=1/.test(probe) : /pix_fmt=yuva/.test(probe);
     if (!ok) await fail(`${outArg} was written without an alpha channel (${probe.trim().replace(/\n/g, ', ')}): your ffmpeg build may lack alpha support`);
-    alphaNote = ', alpha ✓';
+    // and decode a frame from the hold: most of it must actually come back see-through
+    const mid = Math.floor(info.FRAMES / 2);
+    const rgba = execFileSync('ffmpeg', ['-v', 'error', ...(ext === '.webm' ? ['-c:v', 'libvpx-vp9'] : []), '-i', outArg, '-vf', `select=eq(n\\,${mid})`, '-frames:v', '1', '-f', 'rawvideo', '-pix_fmt', 'rgba', '-'], { maxBuffer: 1 << 28 });
+    let clear = 0; for (let i = 3; i < rgba.length; i += 4) if (rgba[i] === 0) clear++;
+    const share = clear / (rgba.length / 4);
+    if (share < .5) await fail(`${outArg}: decoded frame ${mid} is only ${(share * 100).toFixed(0)}% see-through; the alpha did not survive encoding`);
+    alphaNote = `, alpha ✓ (frame ${mid} decodes ${(share * 100).toFixed(0)}% see-through)`;
   }
   console.log(`rendered ${info.FRAMES} frames @ ${info.FPS}fps, ${info.w}x${info.h}${alphaNote} -> ${outArg}`);
 }

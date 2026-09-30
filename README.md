@@ -34,6 +34,7 @@ The agent designs the graphic for your show (not from a template library), check
 |---|---|
 | OBS Studio | `.webm` (VP9 with alpha) for a Media Source, or the page itself as a Browser Source, so you can change a name without re-rendering |
 | Premiere Pro, DaVinci Resolve, Final Cut Pro | `.mov` (ProRes 4444 with alpha) |
+| A web page | `.webm` for Chrome and Edge, plus an HEVC-with-alpha copy for Safari (made on macOS) |
 | An editor without alpha support | `.mp4` on a green ground for chroma key |
 
 Plus the HTML page it was drawn from: change the names in `CARDS` and render again, or render the same design at 3840×2160 with `--scale 2`. Setup steps for each tool are in [delivery.md](./skills/lower-thirds/references/delivery.md).
@@ -45,7 +46,7 @@ A transparent graphic has failure modes you can't see until it's over footage, s
 - `--check` fails the design if anything paints a background (the file wouldn't be see-through), if the first or last frame isn't empty (it would pop on or cut off in your edit), if any pixel leaves the title-safe area, or if a font face (family, weight, italic) did not load.
 - Stills of the hold over a checkerboard, a dark and a light background, so every word is judged against both.
 - Contact sheets of the build-in and build-out, cropped to the graphic and enlarged, frame by frame.
-- After encoding, the script confirms that the WebM or ProRes file really carries an alpha channel.
+- After encoding, the script decodes a frame of the WebM or ProRes file and confirms it really comes back see-through.
 
 ## What's included
 
@@ -63,6 +64,8 @@ Built and tested with **Claude Opus 5.5**. The design and the self-check lean on
 ## Requirements
 
 Node 18+, `npm i playwright-core`, ffmpeg (with libvpx-vp9 and prores_ks, which standard builds include), and Chrome (or `npx playwright install chromium`). No API keys.
+
+Working from a clone instead of an installed skill: run `npm i playwright-core` in the repo root; the scripts find it from any folder inside, such as `examples/podcast/` or a `work/` folder of your own.
 
 ## Topics
 
